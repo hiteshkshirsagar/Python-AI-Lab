@@ -1,288 +1,125 @@
 import streamlit as st
 import pandas as pd
+import yfinance as yf
 
-st.title("📋 Python & AI Learning Hub")
+st.set_page_config(page_title="Hitesh's AI Academy", layout="wide")
 
 # --- SIDEBAR NAVIGATION ---
 with st.sidebar:
     st.header("👤 User Profile")
-    
-    # Creating a dictionary to store your info (Moved to Sidebar)
     user_data = {
         "Name": "Hitesh",
         "Target Role": "AI Engineer",
         "Current Shift": "2 PM - 11 PM IST",
         "Favorite Index": "Nifty 50"
     }
-    
-    # Accessing data from a dictionary using the "Key"
     st.write(f"Welcome, **{user_data['Name']}**!")
-    st.write(f"Your goal is to become an **{user_data['Target Role']}**.")
     st.json(user_data)
     
     st.divider()
     st.header("🧭 Navigation")
-    
-    # We use a List to store the topics
-    topics = ["Variables", "Data Types", "Lists", "Dictionaries", "Loops", "Functions"]
-    
-    # Creating a dynamic list in the UI for your friends
-    selected_topic = st.selectbox("Choose a topic to learn more:", topics)
+    # This helps your friends navigate the "Learn" tab
+    selected_topic = st.selectbox("Choose a topic to learn:", 
+                                ["Variables", "Data Types", "Lists", "Dictionaries", "Loops", "Functions"])
 
-# --- MAIN TABS ---
-tab_learn, tab_practice, tab_ai = st.tabs(["📚 Learn", "🛠️ Practice", "🤖 AI Tools"])
+# --- MAIN APP UI ---
+st.title("📋 Python & AI Learning Hub")
 
+tab_learn, tab_practice, tab_ai = st.tabs(["📚 Learn Python", "🛠️ Practice Lab", "🤖 AI & Trading Tools"])
+
+# --- TAB 1: LEARNING CONTENT ---
 with tab_learn:
-    st.header(f"📝 Learning: {selected_topic}")
+    st.header(f"📝 Topic: {selected_topic}")
     
-    if selected_topic == "Lists":
-        st.code("""
-# Example of a List:
-my_portfolio = ["Tata Small Cap", "Axis Silver FoF", "Nifty 50"]
-print(my_portfolio[0]) # Output: Tata Small Cap
-        """)
-        st.info("Challenge for Friends: Try adding a new fund to the list using .append()")
+    if selected_topic == "Variables":
+        st.write("A **Variable** is a labeled box for data.")
+        st.code("name = 'Hitesh'\nsalary = 12", language="python")
+        
+    elif selected_topic == "Data Types":
+        st.write("Python handles Numbers (int/float) and Text (strings) differently.")
+        st.code("age = 25  # Integer\nprice = 22000.50 # Float\nname = 'Nifty' # String", language="python")
+
+    elif selected_topic == "Lists":
+        st.write("A **List** is a shopping bag of items.")
+        st.code("my_portfolio = ['Tata Small Cap', 'Nifty 50']", language="python")
+        st.info("Try adding a new fund using .append()")
+
+    elif selected_topic == "Dictionaries":
+        st.write("A **Dictionary** uses 'Keys' (labels) and 'Values' (data).")
+        st.code("stock = {'name': 'TCS', 'price': 3800}", language="python")
+
+    elif selected_topic == "Loops":
+        st.write("Loops do the same task over and over—like checking 50 stock prices at once!")
+        st.code("for price in prices:\n    print(price)", language="python")
+
+    elif selected_topic == "Functions":
+        st.write("A **Function** is a recipe you can reuse.")
+        st.code("def calculate_tax(income):\n    return income * 0.1", language="python")
 
     st.divider()
-    st.header("❓ Python Q&A Hub")
-
-    # A dictionary of Python concepts
+    st.header("❓ Quick Q&A")
     python_qa = {
         "What is a Variable?": "A container for storing data values.",
-        "What is a List?": "An ordered collection that can be changed.",
-        "What is a Dictionary?": "A collection of Key-Value pairs.",
+        "What is a List?": "An ordered collection.",
         "What is Streamlit?": "A tool to build web apps with Python."
     }
+    q = st.selectbox("Pick a question:", list(python_qa.keys()))
+    if st.button("Reveal Answer"):
+        st.info(python_qa[q])
 
-    # Creating a dropdown to pick a question
-    selected_question = st.selectbox("Choose a question to learn:", list(python_qa.keys()))
-
-    # Showing the answer based on the selection
-    if st.button("Show Answer"):
-        answer = python_qa[selected_question]
-        st.info(f"💡 {answer}")
-
-    st.divider()
-    st.header("🔄 Lesson 5: The Power of Loops")
-
-    # A list of stock prices
-    nifty_prices = [22100, 22050, 22200, 21900, 22300]
-    st.write("Checking trend for the last 5 days...")
-
-    # The 'for' loop
-    for price in nifty_prices:
-        if price > 22000:
-            st.write(f"📈 {price}: **Bullish** (Above 22k)")
-        else:
-            st.write(f"📉 {price}: **Bearish** (Below 22k)")
-
-    st.divider()
-    st.header("📦 Lesson 6: The Power of Functions")
-
-    # 1. Defining the function (The Recipe)
-    def calculate_tax(income):
-        # Let's say tax is 10% for learning purposes
-        tax = income * 0.10
-        return tax
-
-    # 2. Using the function in the App
-    salary = st.number_input("Enter annual salary (LPA):", value=10.0)
-
-    if st.button("Calculate My Tax"):
-        my_tax = calculate_tax(salary)
-        st.write(f"Based on a 10% rate, your tax is: **{my_tax} LPA**")
-        st.info("Functions help us reuse code without typing the math again!")
-
-    st.divider()
-    st.header("📊 Lesson 7: Pandas DataFrames")
-    
-    st.write("A DataFrame is like a programmable Excel sheet. It organizes data into rows and columns.")
-    
-    # 1. Create the data (Dictionary)
-    stock_data = {
-        "Stock Symbol": ["RELIANCE", "TCS", "INFY", "HDFCBANK", "ICICIBANK"],
-        "Price (₹)": [2900, 3800, 1600, 1450, 1050],
-        "Sector": ["Energy", "IT", "IT", "Banking", "Banking"]
-    }
-    
-    # 2. Convert to DataFrame
-    df = pd.DataFrame(stock_data)
-    
-    # 3. Display in Streamlit
-    st.write("### My Watchlist")
-    st.dataframe(df)
-    
-    st.info("Try clicking the column headers to sort the table!")
-
+# --- TAB 2: PRACTICE LAB ---
 with tab_practice:
-    st.header("📈 Live Portfolio Manager")
-
-    # 1. Initialize the 'Notebook' (Session State)
+    st.header("📈 Interactive Portfolio")
     if 'my_portfolio' not in st.session_state:
         st.session_state.my_portfolio = ["Tata Small Cap", "Axis Silver FoF"]
 
-    # 2. Input to add a new fund
-    new_stock = st.text_input("Enter a stock or fund name (e.g., Nifty 50):")
-
-    if st.button("Add to My Portfolio"):
+    new_stock = st.text_input("Add a new stock/fund:")
+    if st.button("Add to Portfolio"):
         if new_stock:
             st.session_state.my_portfolio.append(new_stock)
-            st.success(f"Successfully added {new_stock}!")
-        else:
-            st.warning("Please enter a name first!")
+            st.success(f"Added {new_stock}!")
 
-    # 3. Display the updated list
-    st.write("### Your Current Assets:")
-    for item in st.session_state.my_portfolio:
-        st.write(f"- {item}")
+    st.write("Current Assets:", st.session_state.my_portfolio)
 
     st.divider()
-    st.header("📊 Project: Market Trend Analyzer")
-
-    # 1. Let the user (or your friends) input a list of prices
-    price_input = st.text_input("Enter last 5 days Nifty prices (separated by commas):", "22100, 22050, 22200, 21900, 22300")
-
-    # 2. Convert that text into a List of Numbers (Advanced Beginner Logic)
+    st.header("📊 Market Trend Analyzer")
+    price_input = st.text_input("Enter last 5 days Nifty prices (comma separated):", "22100, 22050, 22200, 21900, 22300")
     try:
         price_list = [float(p.strip()) for p in price_input.split(",")]
-    except ValueError:
-        st.error("Please enter valid numbers")
-        price_list = []
-
-    if st.button("Analyze Trend"):
-        if not price_list:
-            st.warning("Please fix the input errors above to analyze the trend.")
-        else:
-            # 3. Use Loops/Math to find insights
-            total = 0
-            for p in price_list:
-                total += p
-            
-            avg_price = total / len(price_list)
-            max_price = max(price_list)
-            min_price = min(price_list)
-            
-            # 4. Display Results
-            col1, col2, col3 = st.columns(3)
-            col1.metric("Average Price", f"₹{avg_price:,.2f}")
-            col2.metric("Highest", f"₹{max_price:,.2f}")
-            col3.metric("Lowest", f"₹{min_price:,.2f}")
-            
-            # AI Logic
-            if price_list[-1] > avg_price:
-                st.success("🚀 The current price is above average. The trend looks BULLISH!")
+        if st.button("Analyze Trend"):
+            avg = sum(price_list) / len(price_list)
+            st.metric("Average Price", f"₹{avg:,.2f}")
+            if price_list[-1] > avg:
+                st.success("BULLISH Trend 🚀")
             else:
-                st.warning("⚠️ The current price is below average. The trend looks BEARISH.")
+                st.warning("BEARISH Trend ⚠️")
+    except:
+        st.error("Please enter valid numbers.")
 
+# --- TAB 3: AI & TRADING TOOLS ---
 with tab_ai:
-    st.header("🤖 AI Decision Maker: Nifty 50 Strategy")
-
-    # Beginner Goal: Learning 'If-Else' statements
-    target_profit = st.number_input("What is your Target Profit %?", value=10)
-    current_gain = st.number_input("What is your Current Gain %?", value=0)
-
-    if st.button("Ask AI for Advice"):
-        if current_gain >= target_profit:
-            st.success("✅ Strategy: BOOK PROFIT! You have reached your goal.")
-        elif current_gain < 0:
-            st.error("📉 Strategy: STOP LOSS. Consider protecting your capital.")
-        else:
-            st.info("⏳ Strategy: HOLD. You haven't reached your target yet.")
+    st.header("📈 Live Market Data")
+    try:
+        if st.button("Fetch Live Nifty 50"):
+            price = yf.Ticker("^NSEI").history(period="1d")['Close'].iloc[-1]
+            st.metric("Live Nifty 50", f"₹{price:,.2f}")
+    except:
+        st.warning("Could not fetch live data. Ensure 'yfinance' is in requirements.txt")
 
     st.divider()
-    st.header("📦 Lesson 6: Mastering Functions (AI)")
-
-    # This function takes data and returns a result
-    def get_investment_advice(profit_pct):
-        if profit_pct > 20:
-            return "🚀 Amazing! Consider booking some profit."
-        elif profit_pct > 0:
-            return "📈 You are in the green. Keep holding!"
-        else:
-            return "📉 Stay patient. Focus on the long term."
-
-    # User Input
-    user_profit = st.number_input("Enter your current profit %:", value=0.0)
-
-    # Calling the function
-    if st.button("Get AI Advice"):
-        advice = get_investment_advice(user_profit)
-        st.info(advice)
+    st.header("💰 Investment & Goals")
+    
+    buy_price = st.number_input("Purchase Price (₹):", value=100.0)
+    qty = st.number_input("Quantity:", min_value=1)
+    st.write(f"Total Investment: **₹{buy_price * qty:,.2f}**")
 
     st.divider()
-    st.header("🌟 Lovable AI Insights")
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.metric(label="Target Salary", value="12 LPA", delta="Goal")
-    with col2:
-        st.metric(label="Learning Progress", value="Phase 1", delta="75%")
-
-    st.progress(75) # A visual progress bar
-
-
-import yfinance as yf
-
-def get_live_nifty():
-    # ^NSEI is the symbol for Nifty 50
-    nifty = yf.Ticker("^NSEI")
-    return nifty.history(period="1d")['Close'].iloc[-1]
-
-if st.button("Fetch Live Nifty 50 Price"):
-    price = get_live_nifty()
-    st.metric("Live Nifty 50", f"₹{price:,.2f}")
-
-import yfinance as yf
-
-st.header("📈 Live Nifty 50 Tracker")
-
-# We "try" the code that might fail
-try:
-    if st.button("Fetch Live Price"):
-        data = yf.Ticker("^NSEI").history(period="1d")
-        price = data['Close'].iloc[-1]
-        st.metric("Nifty 50", f"₹{price:,.2f}")
-
-# If it fails (no internet or wrong symbol), we do this "except"
-except Exception as e:
-    st.warning("⚠️ Could not fetch live data. Please check your internet connection or the stock symbol.")
-
-
-st.header("💰 Investment Calculator")
-
-# Using number_input prevents 'abc' errors automatically!
-buy_price = st.number_input("Average Buy Price (₹):", value=100.0, step=1.0)
-qty = st.number_input("Quantity:", min_value=1, step=1)
-
-total = buy_price * qty
-st.write(f"Total Investment: **₹{total:,.2f}**")
-
-st.divider()
-st.header("🎯 Target: The 1 Lakh Club")
-st.write("How close are you to investing ₹1,00,000 in Nifty 50?")
-
-# 1. Setup the Target
-TARGET_GOAL = 100000
-
-# 2. Get User Input
-current_invested = st.number_input("How much have you invested so far? (₹):", min_value=0, step=1000)
-
-# 3. Calculate Logic
-remaining = TARGET_GOAL - current_invested
-progress_percentage = min(current_invested / TARGET_GOAL, 1.0) # Keeps it between 0 and 100%
-
-# 4. Show the Progress Bar
-st.progress(progress_percentage)
-
-if remaining > 0:
-    st.info(f"You are **₹{remaining:,}** away from your goal! Keep going! 🚀")
-else:
-    st.balloons()
-    st.success("🎉 Congratulations! You've reached the 1 Lakh milestone!")
-
-# 5. The "Helper" Logic (Units needed)
-nifty_price = 22000 # Let's assume this for now
-units_needed = remaining / nifty_price
-
-if remaining > 0:
-    st.write(f"💡 *Tip: At current prices, you need to buy approximately **{units_needed:.2f}** more units of Nifty 50.*")
+    st.header("🎯 Target: The 1 Lakh Club")
+    invested = st.number_input("Current Investment (₹):", min_value=0)
+    progress = min(invested / 100000, 1.0)
+    st.progress(progress)
+    if invested < 100000:
+        st.info(f"You need ₹{100000 - invested:,} more to reach your goal!")
+    else:
+        st.balloons()
+        st.success("Goal Reached! 🏆")
