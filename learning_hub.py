@@ -234,3 +234,33 @@ qty = st.number_input("Quantity:", min_value=1, step=1)
 
 total = buy_price * qty
 st.write(f"Total Investment: **₹{total:,.2f}**")
+
+st.divider()
+st.header("🎯 Target: The 1 Lakh Club")
+st.write("How close are you to investing ₹1,00,000 in Nifty 50?")
+
+# 1. Setup the Target
+TARGET_GOAL = 100000
+
+# 2. Get User Input
+current_invested = st.number_input("How much have you invested so far? (₹):", min_value=0, step=1000)
+
+# 3. Calculate Logic
+remaining = TARGET_GOAL - current_invested
+progress_percentage = min(current_invested / TARGET_GOAL, 1.0) # Keeps it between 0 and 100%
+
+# 4. Show the Progress Bar
+st.progress(progress_percentage)
+
+if remaining > 0:
+    st.info(f"You are **₹{remaining:,}** away from your goal! Keep going! 🚀")
+else:
+    st.balloons()
+    st.success("🎉 Congratulations! You've reached the 1 Lakh milestone!")
+
+# 5. The "Helper" Logic (Units needed)
+nifty_price = 22000 # Let's assume this for now
+units_needed = remaining / nifty_price
+
+if remaining > 0:
+    st.write(f"💡 *Tip: At current prices, you need to buy approximately **{units_needed:.2f}** more units of Nifty 50.*")
