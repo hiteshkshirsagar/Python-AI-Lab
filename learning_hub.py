@@ -91,3 +91,50 @@ selected_question = st.selectbox("Choose a question to learn:", list(python_qa.k
 if st.button("Show Answer"):
     answer = python_qa[selected_question]
     st.info(f"💡 {answer}")
+
+st.divider()
+st.header("🔄 Lesson 5: The Power of Loops")
+
+# A list of stock prices
+nifty_prices = [22100, 22050, 22200, 21900, 22300]
+
+st.write("Checking trend for the last 5 days...")
+
+# The 'for' loop: it takes each 'price' from the 'nifty_prices' list one by one
+for price in nifty_prices:
+    if price > 22000:
+        st.write(f"📈 {price}: **Bullish** (Above 22k)")
+    else:
+        st.write(f"📉 {price}: **Bearish** (Below 22k)")
+
+st.divider()
+st.header("📊 Project: Market Trend Analyzer")
+
+# 1. Let the user (or your friends) input a list of prices
+price_input = st.text_input("Enter last 5 days Nifty prices (separated by commas):", "22100, 22050, 22200, 21900, 22300")
+
+# 2. Convert that text into a List of Numbers (Advanced Beginner Logic)
+# We use a loop inside a list (this is called 'List Comprehension')
+price_list = [float(p.strip()) for p in price_input.split(",")]
+
+if st.button("Analyze Trend"):
+    # 3. Use Loops/Math to find insights
+    total = 0
+    for p in price_list:
+        total += p
+    
+    avg_price = total / len(price_list)
+    max_price = max(price_list)
+    min_price = min(price_list)
+    
+    # 4. Display Results
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Average Price", f"₹{avg_price:,.2f}")
+    col2.metric("Highest", f"₹{max_price:,.2f}")
+    col3.metric("Lowest", f"₹{min_price:,.2f}")
+    
+    # AI Logic
+    if price_list[-1] > avg_price:
+        st.success("🚀 The current price is above average. The trend looks BULLISH!")
+    else:
+        st.warning("⚠️ The current price is below average. The trend looks BEARISH.")
