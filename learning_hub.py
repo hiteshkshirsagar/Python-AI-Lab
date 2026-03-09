@@ -224,3 +224,13 @@ try:
 # If it fails (no internet or wrong symbol), we do this "except"
 except Exception as e:
     st.warning("⚠️ Could not fetch live data. Please check your internet connection or the stock symbol.")
+
+
+st.header("💰 Investment Calculator")
+
+# Using number_input prevents 'abc' errors automatically!
+buy_price = st.number_input("Average Buy Price (₹):", value=100.0, step=1.0)
+qty = st.number_input("Quantity:", min_value=1, step=1)
+
+total = buy_price * qty
+st.write(f"Total Investment: **₹{total:,.2f}**")
