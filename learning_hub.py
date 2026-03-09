@@ -55,3 +55,39 @@ if st.button("Ask AI for Advice"):
         st.error("📉 Strategy: STOP LOSS. Consider protecting your capital.")
     else:
         st.info("⏳ Strategy: HOLD. You haven't reached your target yet.")
+
+st.divider()
+st.header("👤 User Profile (Dictionary Lesson)")
+
+# Creating a dictionary to store your info
+user_data = {
+    "Name": "Hitesh",
+    "Target Role": "AI Engineer",
+    "Current Shift": "2 PM - 11 PM IST",
+    "Favorite Index": "Nifty 50"
+}
+
+# Accessing data from a dictionary using the "Key"
+st.write(f"Welcome, **{user_data['Name']}**!")
+st.write(f"Your goal is to become an **{user_data['Target Role']}**.")
+
+# User-Friendly Table view of your dictionary
+st.json(user_data)
+
+st.header("❓ Python Q&A Hub")
+
+# A dictionary of Python concepts
+python_qa = {
+    "What is a Variable?": "A container for storing data values.",
+    "What is a List?": "An ordered collection that can be changed.",
+    "What is a Dictionary?": "A collection of Key-Value pairs.",
+    "What is Streamlit?": "A tool to build web apps with Python."
+}
+
+# Creating a dropdown to pick a question
+selected_question = st.selectbox("Choose a question to learn:", list(python_qa.keys()))
+
+# Showing the answer based on the selection
+if st.button("Show Answer"):
+    answer = python_qa[selected_question]
+    st.info(f"💡 {answer}")
