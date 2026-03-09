@@ -124,7 +124,7 @@ with tab_practice:
     try:
         price_list = [float(p.strip()) for p in price_input.split(",")]
     except ValueError:
-        st.error("⚠️ Invalid input! Please ensure you entered only numbers separated by commas.")
+        st.error("Please enter valid numbers")
         price_list = []
 
     if st.button("Analyze Trend"):
@@ -209,3 +209,18 @@ def get_live_nifty():
 if st.button("Fetch Live Nifty 50 Price"):
     price = get_live_nifty()
     st.metric("Live Nifty 50", f"₹{price:,.2f}")
+
+import yfinance as yf
+
+st.header("📈 Live Nifty 50 Tracker")
+
+# We "try" the code that might fail
+try:
+    if st.button("Fetch Live Price"):
+        data = yf.Ticker("^NSEI").history(period="1d")
+        price = data['Close'].iloc[-1]
+        st.metric("Nifty 50", f"₹{price:,.2f}")
+
+# If it fails (no internet or wrong symbol), we do this "except"
+except Exception as e:
+    st.warning("⚠️ Could not fetch live data. Please check your internet connection or the stock symbol.")
