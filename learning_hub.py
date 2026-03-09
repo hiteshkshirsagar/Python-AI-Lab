@@ -17,7 +17,7 @@ with st.sidebar:
     st.json(user_data)
     
     st.divider()
-    st.header("🧭 Navigation Guide")
+    st.header("🧭 Lesson Manual")
     topics = [
         "Variables", "Data Types", "Lists", "Dictionaries", 
         "Loops", "Functions", "Lesson 8: Pandas", 
@@ -31,135 +31,120 @@ tab_learn, tab_practice, tab_ai = st.tabs(["📚 Learn Python", "🛠️ Practic
 
 # --- TAB 1: THE BEGINNER'S MANUAL ---
 with tab_learn:
-    st.header(f"📖 Lesson: {selected_topic}")
+    st.header(f"📝 Lesson: {selected_topic}")
     
-    # --- LESSON: VARIABLES ---
     if selected_topic == "Variables":
-        st.write("### 📦 The 'Labelled Box' Concept")
-        st.write("Imagine you have a box. You put a value inside and put a label on the outside. In Python, we call this a Variable.")
-        st.code("nifty_price = 22100  # 'nifty_price' is the label, 22100 is inside", language="python")
-        
+        st.write("### 📦 The Concept: The Labeled Box")
+        st.write("A variable is like a box where you store data. You put a label on the box so you can find the data later.")
+        st.code("nifty_target = 25000\nprint(nifty_target)", language="python")
         with st.expander("❓ Variables Q&A"):
-            st.write("**Q: Why do we use variables?**")
-            st.write("A: So we can reuse information later without typing it again!")
+            st.write("**Q: Can I change the value inside the box later?**")
+            st.info("Yes! That is why it is called a 'variable'—the value can vary.")
 
-    # --- LESSON: DATA TYPES ---
     elif selected_topic == "Data Types":
-        st.write("### 🔢 Numbers vs. Text")
-        st.write("Python needs to know if it's looking at a number (to do math) or text (to show words).")
-        st.code("""
-age = 25          # Integer (Whole Number)
-price = 2200.50   # Float (Decimal)
-name = "Hitesh"   # String (Text)
-is_bullish = True # Boolean (Yes/No)
-        """, language="python")
-        
+        st.write("### 🔢 The Concept: Different Kinds of Data")
+        st.write("Python handles numbers and text differently. You can't do math on a name!")
+        st.code("price = 22000 # Integer\nname = 'Nifty' # String\nprofit = 15.5 # Float", language="python")
         with st.expander("❓ Data Types Q&A"):
-            st.write("**Q: Can you add a String and an Integer?**")
-            st.write("A: No! Python will give an error. You can't add 'Apple' + 5.")
+            st.write("**Q: What happens if I try to add a number to a string?**")
+            st.error("Python will throw an error! You must convert them first.")
 
-    # --- LESSON: LISTS ---
     elif selected_topic == "Lists":
-        st.write("### 🛒 The Shopping Bag")
-        st.write("A List holds many items in a specific order. Perfect for a Stock Watchlist!")
-        st.code("watchlist = ['RELIANCE', 'TCS', 'INFY']", language="python")
-        
-        [Image of a Python list visualization showing indices starting from 0 and elements inside square brackets]
-        
-        with st.expander("❓ Lists Q&A"):
-            ans = st.text_input("How do you add an item to a list? (Type the method name)")
-            if st.button("Check Answer"):
-                if ans.lower() == "append": st.success("Correct! `list.append()` adds to the end.")
-                else: st.error("Try again! Hint: starts with 'a'.")
+        st.write("### 🛒 The Concept: The Shopping Bag")
+        st.write("A List stores many items in a single variable. Think of it as your stock watchlist.")
+        st.code("stocks = ['TCS', 'INFY', 'RELIANCE']", language="python")
+                with st.expander("❓ Lists Q&A"):
+            ans = st.text_input("What command adds an item to a list?")
+            if st.button("Check List Answer"):
+                if "append" in ans.lower(): st.success("Correct!")
+                else: st.warning("Hint: It starts with 'a'")
 
-    # --- LESSON: DICTIONARIES ---
     elif selected_topic == "Dictionaries":
-        st.write("### 📖 The Key-Value Cupboard")
-        st.write("Dictionaries store data with a 'Key' (label) and a 'Value' (info). Like a real dictionary!")
-        st.code("stock_info = {'name': 'TCS', 'price': 3800}", language="python")
-        
+        st.write("### 📖 The Concept: The Key-Value Cupboard")
+        st.write("A dictionary stores data with a label (Key). Like looking up a word's meaning.")
+        st.code("stock_data = {'name': 'TCS', 'price': 3800}", language="python")
         with st.expander("❓ Dictionaries Q&A"):
-            st.write("**Q: What is the benefit over a list?**")
-            st.write("A: You can find data instantly using the Key, instead of searching the whole list.")
+            st.write("**Q: Can a dictionary have duplicate keys?**")
+            st.info("No. Each key must be unique, like a unique ID.")
 
-    # --- LESSON: LOOPS ---
     elif selected_topic == "Loops":
-        st.write("### 🔄 The Task Repeater")
-        st.write("Loops do the boring work for you. Want to check 100 stock prices? Use a loop!")
-        st.code("for stock in watchlist:\n    print(f'Checking {stock}...')", language="python")
-        
-        [Image of a Python for loop flow chart showing the iteration process]
+        st.write("### 🔄 The Concept: The Task Repeater")
+        st.write("Loops do the same job over and over. Use them to check every stock in your list.")
+        st.code("for s in stocks:\n    print(f'Checking {s}...')", language="python")
+                with st.expander("❓ Loops Q&A"):
+            st.write("**Q: When does a loop stop?**")
+            st.info("It stops when it reaches the last item in your collection.")
 
-        with st.expander("❓ Loops Q&A"):
-            st.write("**Q: What is a 'for' loop?**")
-            st.write("A: It iterates through a collection (like a list) and performs an action on each item.")
-
-    # --- LESSON: FUNCTIONS ---
     elif selected_topic == "Functions":
-        st.write("### 📦 The Recipe Box")
-        st.write("A function is a block of code that only runs when you call it. Like a recipe you keep in a drawer.")
-        st.code("def calculate_tax(salary):\n    return salary * 0.10", language="python")
-        
+        st.write("### 📦 The Concept: The Reusable Recipe")
+        st.write("A function is a set of instructions you write once and use many times.")
+        st.code("def calc_profit(buy, sell):\n    return sell - buy", language="python")
         with st.expander("❓ Functions Q&A"):
-            st.write("**Q: What does 'def' stand for?**")
-            st.write("A: It stands for 'Define'. You are defining a new tool for Python to use.")
+            st.write("**Q: What does 'return' do?**")
+            st.info("It sends the final result back to the main program.")
 
-    # --- LESSON: PANDAS ---
     elif selected_topic == "Lesson 8: Pandas":
-        st.write("### 🐼 DataFrames (Excel for Python)")
-        st.write("Pandas is the most important library for AI Engineers. It handles large tables of data.")
-        df = pd.DataFrame({"Stock": ["NIFTY 50", "TCS"], "Price": [22100, 3800]})
-        st.table(df)
-        
-        [Image of a Python Pandas DataFrame structure showing rows and columns like an Excel sheet]
-        
+        st.write("### 🐼 The Concept: Excel on Steroids")
+        st.write("Pandas handles Tables (DataFrames). This is where Data Engineering begins.")
+        df = pd.DataFrame({"Stock": ["NIFTY", "TCS"], "Price": [22000, 3800]})
+        st.dataframe(df)
         with st.expander("❓ Pandas Q&A"):
             st.write("**Q: What is a DataFrame?**")
-            st.write("A: It's a 2-dimensional data structure, like a table with rows and columns.")
+            st.info("A 2D table with rows and columns, just like an Excel sheet.")
 
-    # --- LESSON: DATA VIZ ---
     elif selected_topic == "Lesson 9: Data Viz":
-        st.write("### 📊 Visualizing Trends")
-        st.write("Charts reveal secrets that numbers hide. We use visualization to spot market trends.")
-        if st.button("Fetch Live Nifty Trend"):
-            prices = yf.Ticker("^NSEI").history(period="5d")['Close']
-            st.line_chart(prices)
-            
+        st.write("### 📈 The Concept: Seeing the Pattern")
+        st.write("Charts help AI Engineers spot trends that numbers alone can't show.")
+        if st.button("Show Live Nifty Chart"):
+            data = yf.Ticker("^NSEI").history(period="5d")['Close']
+            st.line_chart(data)
         with st.expander("❓ Data Viz Q&A"):
-            st.write("**Q: Why use charts in AI?**")
-            st.write("A: To visualize patterns, outliers, and correlations in data.")
+            st.write("**Q: Why use charts instead of tables?**")
+            st.info("Charts show 'trends' and 'momentum' much faster than rows of text.")
 
-    # --- LESSON: TRY-EXCEPT ---
     elif selected_topic == "Lesson 10: try-except":
-        st.write("### 🛡️ Crash-Proofing Your Code")
-        st.write("Error handling ensures your app doesn't die if a user enters bad data.")
-        st.code("try:\n    # code that might fail\nexcept:\n    # what to do if it fails", language="python")
-        
+        st.write("### 🛡️ The Concept: The Safety Net")
+        st.write("Try-Except prevents your app from crashing if a user enters bad data.")
+        st.code("try:\n    # code\nexcept:\n    # error plan", language="python")
         with st.expander("❓ Error Handling Q&A"):
-            st.write("**Q: What is a 'ValueError'?**")
-            st.write("A: It occurs when a function receives an argument of the right type but inappropriate value (like text when a number is expected).")
+            st.write("**Q: Is 'except' mandatory if you use 'try'?**")
+            st.success("Yes! You must tell Python what to do if an error occurs.")
 
-    # --- LESSON: APIs ---
     elif selected_topic == "Lesson 11: APIs":
-        st.write("### 🌐 Connecting to the World")
-        st.write("APIs allow your app to talk to other apps. We use the Yahoo Finance API for live prices.")
-        
-        with st.expander("❓ APIs Q&A"):
-            st.write("**Q: What does API stand for?**")
-            st.write("A: Application Programming Interface.")
+        st.write("### 🌐 The Concept: The Phone Call")
+        st.write("APIs let your app 'call' another computer to get live data (like Yahoo Finance).")
+        st.code("data = yf.Ticker('^NSEI').info", language="python")
+        with st.expander("❓ API Q&A"):
+            st.write("**Q: Does every API require payment?**")
+            st.info("No! Many, like yFinance, are free for learning purposes.")
 
 # --- TAB 2: PRACTICE LAB ---
 with tab_practice:
     st.header("🏆 Knowledge Challenges")
-    
     if 'quiz_score' not in st.session_state: st.session_state.quiz_score = 0
     
     col1, col2 = st.columns(2)
     with col1:
-        st.subheader("⭐ Basic Quiz")
-        q_basics = {
-            "Which type is for text?": "String",
-            "What symbol for a List?": "[]",
-            "Which function prints?": "print()"
-        }
-        pick_b = st.selectbox("Pick a question:", list(q_basics.keys()))
+        st.subheader("⭐ Basics Quiz")
+        q = st.selectbox("Question:", ["Which type is for text?", "Symbol for a List?"])
+        ans = st.text_input("Your Answer:")
+        if st.button("Submit Answer"):
+            if "string" in ans.lower() or "[]" in ans:
+                st.session_state.quiz_score += 10
+                st.success("Correct!")
+    
+    st.metric("Total Score", f"{st.session_state.quiz_score} Points")
+
+# --- TAB 3: AI & TRADING TOOLS ---
+with tab_ai:
+    st.header("🤖 Market Tools")
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Fetch Nifty 50 Live"):
+            try:
+                p = yf.Ticker("^NSEI").history(period="1d")['Close'].iloc[-1]
+                st.metric("Nifty 50", f"₹{p:,.2f}")
+            except: st.error("API error.")
+    with col2:
+        inv = st.number_input("Invested Amount:", min_value=0)
+        st.progress(min(inv/100000, 1.0))
