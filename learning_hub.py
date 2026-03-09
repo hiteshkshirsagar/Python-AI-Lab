@@ -121,29 +121,36 @@ with tab_practice:
     price_input = st.text_input("Enter last 5 days Nifty prices (separated by commas):", "22100, 22050, 22200, 21900, 22300")
 
     # 2. Convert that text into a List of Numbers (Advanced Beginner Logic)
-    price_list = [float(p.strip()) for p in price_input.split(",")]
+    try:
+        price_list = [float(p.strip()) for p in price_input.split(",")]
+    except ValueError:
+        st.error("⚠️ Invalid input! Please ensure you entered only numbers separated by commas.")
+        price_list = []
 
     if st.button("Analyze Trend"):
-        # 3. Use Loops/Math to find insights
-        total = 0
-        for p in price_list:
-            total += p
-        
-        avg_price = total / len(price_list)
-        max_price = max(price_list)
-        min_price = min(price_list)
-        
-        # 4. Display Results
-        col1, col2, col3 = st.columns(3)
-        col1.metric("Average Price", f"₹{avg_price:,.2f}")
-        col2.metric("Highest", f"₹{max_price:,.2f}")
-        col3.metric("Lowest", f"₹{min_price:,.2f}")
-        
-        # AI Logic
-        if price_list[-1] > avg_price:
-            st.success("🚀 The current price is above average. The trend looks BULLISH!")
+        if not price_list:
+            st.warning("Please fix the input errors above to analyze the trend.")
         else:
-            st.warning("⚠️ The current price is below average. The trend looks BEARISH.")
+            # 3. Use Loops/Math to find insights
+            total = 0
+            for p in price_list:
+                total += p
+            
+            avg_price = total / len(price_list)
+            max_price = max(price_list)
+            min_price = min(price_list)
+            
+            # 4. Display Results
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Average Price", f"₹{avg_price:,.2f}")
+            col2.metric("Highest", f"₹{max_price:,.2f}")
+            col3.metric("Lowest", f"₹{min_price:,.2f}")
+            
+            # AI Logic
+            if price_list[-1] > avg_price:
+                st.success("🚀 The current price is above average. The trend looks BULLISH!")
+            else:
+                st.warning("⚠️ The current price is below average. The trend looks BEARISH.")
 
 with tab_ai:
     st.header("🤖 AI Decision Maker: Nifty 50 Strategy")
@@ -190,3 +197,15 @@ with tab_ai:
         st.metric(label="Learning Progress", value="Phase 1", delta="75%")
 
     st.progress(75) # A visual progress bar
+
+
+import yfinance as yf
+
+def get_live_nifty():
+    # ^NSEI is the symbol for Nifty 50
+    nifty = yf.Ticker("^NSEI")
+    return nifty.history(period="1d")['Close'].iloc[-1]
+
+if st.button("Fetch Live Nifty 50 Price"):
+    price = get_live_nifty()
+    st.metric("Live Nifty 50", f"₹{price:,.2f}")
