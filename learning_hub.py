@@ -86,3 +86,45 @@ with tab_ai:
     if st.button("Fetch Price"):
         p = yf.Ticker("^NSEI").history(period="1d")['Close'].iloc[-1]
         st.metric("Nifty 50", f"₹{p:,.2f}")
+
+from fpdf import FPDF
+import io
+
+st.divider()
+st.header("🎓 Final Certification")
+
+# Logic: Only unlock if score is 50 or more
+if st.session_state.quiz_score >= 50:
+    st.success("🌟 Congratulations! You have earned your Python Basics Certificate.")
+    
+    # Create the PDF Function
+    def create_certificate(name):
+        pdf = FPDF(orientation='L', unit='mm', format='A4')
+        pdf.add_page()
+        pdf.set_font("Arial", 'B', 30)
+        
+        # Add a border
+        pdf.rect(10, 10, 277, 190)
+        
+        # Certificate Text
+        pdf.cell(0, 40, "CERTIFICATE OF COMPLETION", ln=True, align='C')
+        pdf.set_font("Arial", '', 20)
+        pdf.cell(0, 20, "This is proudly presented to", ln=True, align='C')
+        pdf.set_font("Arial", 'I', 35)
+        pdf.cell(0, 30, name, ln=True, align='C')
+        pdf.set_font("Arial", '', 18)
+        pdf.cell(0, 20, "For successfully mastering the Python & AI Foundations Course.", ln=True, align='C')
+        
+        # Return as bytes
+        return pdf.output(dest='S').encode('latin-1')
+
+    # Download Button
+    cert_bytes = create_certificate(user_data['Name'])
+    st.download_button(
+        label="📥 Download My Certificate",
+        data=cert_bytes,
+        file_name="Python_Certificate.pdf",
+        mime="application/pdf"
+    )
+else:
+    st.warning(f"Keep practicing! You need **{50 - st.session_state.quiz_score}** more points to unlock your certificate.")
