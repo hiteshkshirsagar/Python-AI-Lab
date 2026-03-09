@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 st.title("📋 Python & AI Learning Hub")
 
@@ -91,6 +92,27 @@ print(my_portfolio[0]) # Output: Tata Small Cap
         my_tax = calculate_tax(salary)
         st.write(f"Based on a 10% rate, your tax is: **{my_tax} LPA**")
         st.info("Functions help us reuse code without typing the math again!")
+
+    st.divider()
+    st.header("📊 Lesson 7: Pandas DataFrames")
+    
+    st.write("A DataFrame is like a programmable Excel sheet. It organizes data into rows and columns.")
+    
+    # 1. Create the data (Dictionary)
+    stock_data = {
+        "Stock Symbol": ["RELIANCE", "TCS", "INFY", "HDFCBANK", "ICICIBANK"],
+        "Price (₹)": [2900, 3800, 1600, 1450, 1050],
+        "Sector": ["Energy", "IT", "IT", "Banking", "Banking"]
+    }
+    
+    # 2. Convert to DataFrame
+    df = pd.DataFrame(stock_data)
+    
+    # 3. Display in Streamlit
+    st.write("### My Watchlist")
+    st.dataframe(df)
+    
+    st.info("Try clicking the column headers to sort the table!")
 
 with tab_practice:
     st.header("📈 Live Portfolio Manager")
