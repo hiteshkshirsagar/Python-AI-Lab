@@ -138,3 +138,50 @@ if st.button("Analyze Trend"):
         st.success("🚀 The current price is above average. The trend looks BULLISH!")
     else:
         st.warning("⚠️ The current price is below average. The trend looks BEARISH.")
+
+    st.divider()
+st.header("📦 Lesson 6: The Power of Functions")
+
+# 1. Defining the function (The Recipe)
+def calculate_tax(income):
+    # Let's say tax is 10% for learning purposes
+    tax = income * 0.10
+    return tax
+
+# 2. Using the function in the App
+salary = st.number_input("Enter annual salary (LPA):", value=10.0)
+
+if st.button("Calculate My Tax"):
+    my_tax = calculate_tax(salary)
+    st.write(f"Based on a 10% rate, your tax is: **{my_tax} LPA**")
+    st.info("Functions help us reuse code without typing the math again!")
+
+st.divider()
+st.header("📦 Lesson 6: Mastering Functions")
+
+# This function takes data and returns a result
+def get_investment_advice(profit_pct):
+    if profit_pct > 20:
+        return "🚀 Amazing! Consider booking some profit."
+    elif profit_pct > 0:
+        return "📈 You are in the green. Keep holding!"
+    else:
+        return "📉 Stay patient. Focus on the long term."
+
+# User Input
+user_profit = st.number_input("Enter your current profit %:", value=0.0)
+
+# Calling the function
+if st.button("Get AI Advice"):
+    advice = get_investment_advice(user_profit)
+    st.info(advice)
+
+st.header("🌟 Lovable AI Insights")
+col1, col2 = st.columns(2)
+
+with col1:
+    st.metric(label="Target Salary", value="12 LPA", delta="Goal")
+with col2:
+    st.metric(label="Learning Progress", value="Phase 1", delta="75%")
+
+st.progress(75) # A visual progress bar
